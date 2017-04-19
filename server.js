@@ -5,7 +5,7 @@
 
 const unirest = require('unirest');
 const express = require('express');
-const fs = require("fs");
+const fs = require('fs');
 const app = express();
 
 app.listen(3000);
@@ -17,9 +17,7 @@ app.use(express.static('public'));
 unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
     .header("X-Mashape-Key", "ZKV1bthqaemshupcn0VO0b4A7tXLp1PeXxAjsnMmW4jG7fVeVO")
     .end((result) => {
-        //console.log(result.status, result.headers, result.body);
-        console.log("WOW AMAZING: " + result.body.Basic[1].img);
-
+        console.log("Server Running");
         const jsonData = JSON.stringify(result.body);
         const testData = "[" + jsonData + "]";
 

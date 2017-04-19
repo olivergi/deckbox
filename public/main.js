@@ -1,8 +1,9 @@
 /**
  * Created by iosdev on 29.3.2017.
  */
-"use strict";
+'use strict';
 let dataArray = [];
+let cardNameArray = [];
 
 const myRequest = new Request('data.json',{
     headers: new Headers({
@@ -18,7 +19,8 @@ fetch(myRequest).then((response) => {
     throw new Error('Network response was not ok.');
 }).then((response) => {
     dataArray = response;
-    searchFunction("Majordomo Executus");
+    searchFunction('Majordomo Executus');
+    populateNameArray();
 }).catch(function(error) {
     console.log('Problem: ' + error.message);
 });
@@ -33,6 +35,18 @@ const searchFunction = (search) => {
             }
         }
     }
+};
+
+const populateNameArray = () => {
+    let allArrays = Object.values(dataArray[0]);
+    console.log(allArrays);
+    for (let expansionArray of allArrays) {
+        for (let item of expansionArray) {
+            cardNameArray.push(item.name);
+        }
+    }
+    console.log('Card Names: ' + cardNameArray);
+    new Awesomplete(document.getElementById('search'), { list: cardNameArray });
 };
 
 document.getElementById('submitSearch').addEventListener('click', () => {
