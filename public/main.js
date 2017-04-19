@@ -25,27 +25,31 @@ fetch(myRequest).then((response) => {
     console.log('Problem: ' + error.message);
 });
 
+// Search through all Cards
 const searchFunction = (search) => {
     let allArrays = Object.values(dataArray[0]);
-    console.log(allArrays);
     for (let expansionArray of allArrays) {
         for (let item of expansionArray) {
-            if (item.name.includes(search)) {
+            // Checks the type of the card, this makes sure that only correct card Images are returned.
+            if (item.name == search && (item.type == 'Minion' || item.type == 'Enhancement' || item.type == 'Spell')) {
                 document.getElementById('card').src = item.img;
             }
         }
     }
 };
 
+// Populates the list of Names to be used for Auto-complete
 const populateNameArray = () => {
     let allArrays = Object.values(dataArray[0]);
-    console.log(allArrays);
     for (let expansionArray of allArrays) {
         for (let item of expansionArray) {
-            cardNameArray.push(item.name);
+            if (item.type == 'Minion' || item.type == 'Enhancement' || item.type == 'Spell') {
+                cardNameArray.push(item.name);
+            }
         }
     }
     console.log('Card Names: ' + cardNameArray);
+    // Awesomplete library used for Auto-complete search function
     new Awesomplete(document.getElementById('search'), { list: cardNameArray });
 };
 

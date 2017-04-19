@@ -14,14 +14,14 @@ app.use(express.static('public'));
 
 // Optional Parameters: ?attack=1&cost=1&health=1
 
-unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
-    .header("X-Mashape-Key", "ZKV1bthqaemshupcn0VO0b4A7tXLp1PeXxAjsnMmW4jG7fVeVO")
+unirest.get('https://omgvamp-hearthstone-v1.p.mashape.com/cards')
+    .header('X-Mashape-Key', 'ZKV1bthqaemshupcn0VO0b4A7tXLp1PeXxAjsnMmW4jG7fVeVO')
     .end((result) => {
-        console.log("Server Running");
+        console.log('Server Running');
         const jsonData = JSON.stringify(result.body);
-        const testData = "[" + jsonData + "]";
+        const testData = '[' + jsonData + ']';
 
-        fs.writeFile("public/data.json", testData, function(err) {
+        fs.writeFile('public/data.json', testData, function(err) {
             if(err) {
                 return console.log(err);
             }
