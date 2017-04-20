@@ -11,7 +11,7 @@ const myRequest = new Request('data.json',{
     })
 });
 
-// Fetch function
+// Fetch request from the data.json file
 fetch(myRequest).then((response) => {
     if(response.ok) {
         return response.json();
@@ -30,7 +30,7 @@ const searchFunction = (search) => {
     let allArrays = Object.values(dataArray[0]);
     for (let expansionArray of allArrays) {
         for (let item of expansionArray) {
-            // Checks the type of the card, this makes sure that only correct card Images are returned.
+            // Checks the name & type of the card, this makes sure that only correct card Images are returned.
             if (item.name == search && (item.type == 'Minion' || item.type == 'Enhancement' || item.type == 'Spell')) {
                 document.getElementById('card').src = item.img;
             }
