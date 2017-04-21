@@ -19,7 +19,7 @@ fetch(myRequest).then((response) => {
     throw new Error('Network response was not ok.');
 }).then((response) => {
     dataArray = response;
-    searchFunction('Majordomo Executus');
+    searchFunction();
     populateNameArray();
 }).catch(function(error) {
     console.log('Problem: ' + error.message);

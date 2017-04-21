@@ -8,39 +8,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 </head>
 <body>
-<div>
-        <input id="search" type="text" placeholder="..."/>
-        <input id="submitSearch" type="submit" value="Search"/>
-</div>
-<div>
-    <img id="card" src="">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2 titleImage">
+            <!-- Title Image -->
+                <div class="titleDiv"><h1>DeckBox</h1></div>
+                <img src="res/images/hearthstone-cards.png">
+            <!-- Search Field -->
+            <div class="searchBar">
+                <input id="search" type="text" placeholder="Search..."/>
+                <input id="submitSearch" type="submit" value="Search"/>
+            </div>
+            <!-- Search Result -->
+            <div>
+                <img id="card" src="">
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Forum -->
-<div class="container">
-    <div class="row">   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Deckbox Forum</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Post Title Here</td>
-                <td>Post Username <br>April 18th, 2017</td>
-            </tr>
-            <tr class="active">
-                <td>Post Title Here</td>
-                <td>Post Username <br>April 20th, 2017<br/><br/><a class="btn btn-hot btn-block " href="/search.html" target="_blank"><i class="fa fa-hand-o-right"></i> Click Here</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    </div>
-</div>
-<!-- Forum End -->
+
+
 
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>

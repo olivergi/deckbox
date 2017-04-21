@@ -1,48 +1,41 @@
-
-input[type=text] {
-    width: 200px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    /* background-image: url('searchicon.png'); */
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
-
-input[type=text]:focus {
+html,
+body {
     width: 100%;
 }
 
-.agenda {  }
-
-/* Dates */
-.agenda .agenda-date { width: 170px; }
-.agenda .agenda-date .dayofmonth {
-    width: 40px;
-    font-size: 36px;
-    line-height: 36px;
-    float: left;
-    text-align: right;
-    margin-right: 10px;
-}
-.agenda .agenda-date .shortdate {
-    font-size: 0.75em;
+/* Center Content inside parent div */
+.titleImage {
+    text-align: center;
 }
 
+/* awesomplete search result text alignment  */
+.awesomplete {
+    text-align: left;
+}
 
-/* Times */
-.agenda .agenda-time { width: 140px; }
+#search, #submitSearch {
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    padding: 12px 20px 12px 20px;
+}
 
 
-/* Events */
-.agenda .agenda-events {  }
-.agenda .agenda-events .agenda-event {  }
+.forum.table > tbody > tr > td {
+    vertical-align: middle;
+}
 
-@media (max-width: 767px) {
+.forum .fa {
+    width: 1em;
+    text-align: center;
+}
 
+.forum.table th.cell-stat {
+    width: 6em;
+}
+
+.forum.table th.cell-stat-2x {
+    width: 14em;
 }
