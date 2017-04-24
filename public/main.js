@@ -58,3 +58,8 @@ document.getElementById('submitSearch').addEventListener('click', () => {
 });
 
 
+$('#forumPost').on('input', () => {
+   console.log("Hello");
+});
+
+

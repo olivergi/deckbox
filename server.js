@@ -1,7 +1,7 @@
 /**
  * Created by iosdev on 29.3.2017.
  */
-"use strict";
+'use strict';
 
 const unirest = require('unirest');
 const express = require('express');
@@ -12,6 +12,7 @@ app.listen(3000);
 
 app.use(express.static('public'));
 
+app.get('/forum')
 // Optional Parameters: ?attack=1&cost=1&health=1
 
 unirest.get('https://omgvamp-hearthstone-v1.p.mashape.com/cards')
