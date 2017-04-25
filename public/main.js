@@ -58,8 +58,24 @@ document.getElementById('submitSearch').addEventListener('click', () => {
 });
 
 
-$('#forumPost').on('input', () => {
+/*$('#forumPost').on('input', () => {
    console.log("Hello");
+});*/
+
+const postText = document.getElementById('forumPost');
+
+postText.addEventListener('input', () => {
+
+    // Get last typed character
+    const lastChar = postText.value.substr(postText.value.length - 1);
+
+    if(lastChar == '[') {
+        // Implement Search functionality Here
+        new Awesomplete( postText  , { list: cardNameArray });
+    }
+
+    if (lastChar == ']') {
+        // End Search functionality
+        console.log('Search Ended');
+    }
 });
-
-
