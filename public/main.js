@@ -5,6 +5,8 @@
 let dataArray = [];
 let cardNameArray = [];
 
+const postText = document.getElementById('forumPost');
+
 const myRequest = new Request('data.json',{
     headers: new Headers({
         'Content-Type': 'text/json'
@@ -51,6 +53,7 @@ const populateNameArray = () => {
     console.log('Card Names: ' + cardNameArray);
     // Awesomplete library used for Auto-complete search function
     new Awesomplete(document.getElementById('search'), { list: cardNameArray });
+    new Awesomplete( postText  , { list: cardNameArray });
 };
 
 document.getElementById('submitSearch').addEventListener('click', () => {
@@ -62,16 +65,12 @@ document.getElementById('submitSearch').addEventListener('click', () => {
    console.log("Hello");
 });*/
 
-const postText = document.getElementById('forumPost');
-
 postText.addEventListener('input', () => {
-
     // Get last typed character
     const lastChar = postText.value.substr(postText.value.length - 1);
 
     if(lastChar == '[') {
         // Implement Search functionality Here
-        new Awesomplete( postText  , { list: cardNameArray });
     }
 
     if (lastChar == ']') {
