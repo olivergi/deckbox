@@ -7,7 +7,7 @@ let cardNameArray = [];
 
 const postText = document.getElementById('forumPost');
 
-const myRequest = new Request('data.json',{
+const myRequest = new Request('data.json', {
     headers: new Headers({
         'Content-Type': 'text/json'
     })
@@ -15,7 +15,7 @@ const myRequest = new Request('data.json',{
 
 // Fetch request from the data.json file
 fetch(myRequest).then((response) => {
-    if(response.ok) {
+    if (response.ok) {
         return response.json();
     }
     throw new Error('Network response was not ok.');
@@ -23,7 +23,7 @@ fetch(myRequest).then((response) => {
     dataArray = response;
     searchFunction();
     populateNameArray();
-}).catch(function(error) {
+}).catch(function (error) {
     console.log('Problem: ' + error.message);
 });
 
@@ -52,24 +52,19 @@ const populateNameArray = () => {
     }
     console.log('Card Names: ' + cardNameArray);
     // Awesomplete library used for Auto-complete search function
-    new Awesomplete(document.getElementById('search'), { list: cardNameArray });
-    new Awesomplete( postText  , { list: cardNameArray });
+    new Awesomplete(document.getElementById('search'), {list: cardNameArray});
+    new Awesomplete(postText, {list: cardNameArray});
 };
 
 document.getElementById('submitSearch').addEventListener('click', () => {
     searchFunction(document.getElementById('search').value);
 });
 
-
-/*$('#forumPost').on('input', () => {
-   console.log("Hello");
-});*/
-
 postText.addEventListener('input', () => {
     // Get last typed character
     const lastChar = postText.value.substr(postText.value.length - 1);
 
-    if(lastChar == '[') {
+    if (lastChar == '[') {
         // Implement Search functionality Here
     }
 
