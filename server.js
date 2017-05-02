@@ -4,6 +4,7 @@
 'use strict';
 
 require('dotenv').config();
+const DB = require('./database');
 const https = require('https');
 const http = require('http');
 const bodyParser = require('body-parser');
@@ -16,12 +17,14 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 
-/* app.listen(3000);
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
- app.use(express.static('public')); */
+app.use(express.static('public'));
 
 // Optional Parameters: ?attack=1&cost=1&health=1
-
 unirest.get('https://omgvamp-hearthstone-v1.p.mashape.com/cards')
     .header('X-Mashape-Key', process.env.mashape)
     .end((result) => {
@@ -37,11 +40,14 @@ unirest.get('https://omgvamp-hearthstone-v1.p.mashape.com/cards')
 
     });
 
+DB.connect(process.env.mongoDB , app);
+
+const forumPost = DB.getSchema(DB.postSchema, 'Post');
+
 passport.use(new LocalStrategy(
     (username, password, done) => {
         if (username !== process.env.username || password !== process.env.password) {
-            done(null, false, {message: 'Incorrect credentials.'});
-            return;
+            return done(null, false, {message: 'Incorrect credentials.'});
         }
         return done(null, {username: username});
     }
@@ -58,14 +64,6 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static('public'));
-
-//tls/ssl certificate/key for https
-//put in whatever dir you want and adapt the path
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
 
@@ -75,13 +73,12 @@ const options = {
 };
 
 https.createServer(options, app).listen(3000);
-//force redirection from http to https
 http.createServer((req, res) => {
     res.writeHead(301, {'Location': 'https://localhost:3000' + req.url});
     res.end();
 }).listen(8080);
 
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
     if (req.user == undefined) {
         res.redirect('/index.html')
     }
@@ -91,8 +88,32 @@ app.post('/login',
     passport.authenticate('local', {successRedirect: '/forum.html', failureRedirect: '/'})
 );
 
+// get posts
+app.get('/posts', (req, res) => {
+    forumPost.find().exec().then((posts) => {
+        res.send({status: 'OK', post: posts});
+    });
+});
 
+// post
+app.post('/post', (req, res, next) => {
+    console.log(JSON.stringify(req.body));
+    req.body.time = new Date().getTime();
+    console.log('Req Body Title:' + req.body.title);
+    try {
+        next();
+    } catch (error) {
+        console.log('Error: ' + error.message);
+        res.send({status: 'error', message: 'EXIF error'});
+    }
+});
 
-
-
+// add to DB
+app.use('/post', (req, res, next) => {
+    forumPost.create(req.body).then(post => {
+        res.send({status: 'OK', post: post});
+    }).then(() => {
+        res.send({status: 'error', message: 'Database error'});
+    });
+});
 

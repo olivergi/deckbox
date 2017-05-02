@@ -4,6 +4,7 @@
 'use strict';
 let dataArray = [];
 let cardNameArray = [];
+let firstObjectArray = [];
 
 const postText = document.getElementById('forumPost');
 
@@ -21,6 +22,7 @@ fetch(myRequest).then((response) => {
     throw new Error('Network response was not ok.');
 }).then((response) => {
     dataArray = response;
+    firstObjectArray = Object.values(dataArray[0]);
     searchFunction();
     populateNameArray();
 }).catch(function (error) {
@@ -29,8 +31,7 @@ fetch(myRequest).then((response) => {
 
 // Search through all Cards
 const searchFunction = (search) => {
-    let allArrays = Object.values(dataArray[0]);
-    for (let expansionArray of allArrays) {
+    for (let expansionArray of firstObjectArray) {
         for (let item of expansionArray) {
             // Checks the name & type of the card, this makes sure that only correct card Images are returned.
             if (item.name == search && (item.type == 'Minion' || item.type == 'Enhancement' || item.type == 'Spell')) {
@@ -42,7 +43,7 @@ const searchFunction = (search) => {
 
 // Populates the list of Names to be used for Auto-complete
 const populateNameArray = () => {
-    let allArrays = Object.values(dataArray[0]);
+    const allArrays = Object.values(dataArray[0]);
     for (let expansionArray of allArrays) {
         for (let item of expansionArray) {
             if (item.type == 'Minion' || item.type == 'Enhancement' || item.type == 'Spell') {
