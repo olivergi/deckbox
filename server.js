@@ -56,27 +56,26 @@ app.set('view engine', 'handlebars');
 // ============= Routes =================
 
 //displays our homepage
-app.get('/', function(req, res){
-    res.render('home', {user: req.user});
-    ensureAuthenticated();
+app.get('/forum', function(req, res){
+    res.sendFile('forum.html', { root: 'public' });
 });
 
 //displays our signup page
-app.get('/signin', function(req, res){
-    res.render('signin');
+app.get('/', function(req, res){
+    res.sendFile('index.html');
 });
 
 //sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
 app.post('/local-reg', passport.authenticate('local-signup', {
-        successRedirect: '/',
-        failureRedirect: '/signin'
+        successRedirect: '/forum',
+        failureRedirect: '/'
     })
 );
 
 //sends the request through our local login/signin strategy, and if successful takes user to homepage, otherwise returns then to signin page
 app.post('/login', passport.authenticate('local-signin', {
-        successRedirect: '/',
-        failureRedirect: '/signin'
+        successRedirect: '/forum',
+        failureRedirect: '/'
     })
 );
 
@@ -177,11 +176,17 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
+// === Passport End ===
+
+
+
 const ensureAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) { return next(); }
     req.session.error = 'Please sign in!';
     res.redirect('/signin');
 };
+
+// === HTTPS Redirect ===
 
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
@@ -197,11 +202,13 @@ http.createServer((req, res) => {
     res.end();
 }).listen(8080);
 
-app.get('/*', (req, res) => {
+
+
+/* app.get('/*', (req, res) => {
     if (req.user == undefined) {
         res.redirect('/index.html')
     }
-});
+}); */
 
 /* app.post('/login',
     passport.authenticate('local', {successRedirect: '/forum.html', failureRedirect: '/'})
