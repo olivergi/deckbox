@@ -6,7 +6,7 @@ let dataArray = [];
 let cardNameArray = [];
 let firstObjectArray = [];
 
-const postText = document.getElementById('forumPost');
+//const postText = document.getElementById('forumPost');
 
 const myRequest = new Request('data.json', {
     headers: new Headers({
@@ -54,14 +54,15 @@ const populateNameArray = () => {
     console.log('Card Names: ' + cardNameArray);
     // Awesomplete library used for Auto-complete search function
     new Awesomplete(document.getElementById('search'), {list: cardNameArray});
-    new Awesomplete(postText, {list: cardNameArray});
+    //new Awesomplete(postText, {list: cardNameArray});
 };
 
 document.getElementById('submitSearch').addEventListener('click', () => {
     searchFunction(document.getElementById('search').value);
 });
 
-postText.addEventListener('input', () => {
+// WIP Function for Checking Characters
+/* postText.addEventListener('input', () => {
     // Get last typed character
     const lastChar = postText.value.substr(postText.value.length - 1);
 
@@ -73,4 +74,4 @@ postText.addEventListener('input', () => {
         // End Search functionality
         console.log('Search Ended');
     }
-});
+}); */

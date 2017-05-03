@@ -4,6 +4,7 @@
 'use strict';
 
 require('dotenv').config();
+const express = require('express');
 const DB = require('./database');
 const https = require('https');
 const http = require('http');
@@ -11,60 +12,52 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const exphbs = require('express-handlebars');
 const config = require('./config.js'),
     funct = require('./function.js');
 
 
 const unirest = require('unirest');
-const express = require('express');
 const fs = require('fs');
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
 
 app.use(express.static('public'));
 
-// Session-persisted message middleware
-app.use(function(req, res, next){
-    const err = req.session.error,
-        msg = req.session.notice,
-        success = req.session.success;
 
-    delete req.session.error;
-    delete req.session.success;
-    delete req.session.notice;
-
-    if (err) res.locals.error = err;
-    if (msg) res.locals.notice = msg;
-    if (success) res.locals.success = success;
-
-    next();
-});
+// Init passport authentication
+app.use(passport.initialize());
+// persistent login sessions
+app.use(passport.session());
 
 // ============= Routes =================
 //displays the forum
-app.get('/forum', ensureAuthenticated, function(req, res){
+app.get('/forum', ensureAuthenticated, (req, res) => {
+    console.log('User : ');
+    console.log(req.user);
     res.sendFile('forum.html', { root: 'public' });
 });
 
+//displays the postPage
+app.get('/postPage', ensureAuthenticated, (req, res) => {
+    res.sendFile('postPage.html', { root: 'public' });
+});
+
 //displays the homepage
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
     res.sendFile('index.html');
 });
 
-//sends the request through our local signup strategy, and if successful takes user to forum, otherwise returns then to home page
+//sends the request through the local signup strategy, and if successful takes user to forum, otherwise returns then to home page
 app.post('/local-reg', passport.authenticate('local-signup', {
         successRedirect: '/forum',
         failureRedirect: '/'
     })
 );
 
-//sends the request through our local login/signin strategy, and if successful takes user to forum, otherwise returns then to home page
+//sends the request through the local login/signin strategy, and if successful takes user to forum, otherwise returns then to home page
 app.post('/login', passport.authenticate('local-signin', {
         successRedirect: '/forum',
         failureRedirect: '/'
@@ -72,7 +65,7 @@ app.post('/login', passport.authenticate('local-signin', {
 );
 
 //logs user out of site, deleting them from the session, and returns to homepage
-app.get('/logout', function(req, res){
+app.get('/logout', (req, res) => {
     const name = req.user.username;
     console.log("LOGGIN OUT " + req.user.username);
     req.logout();
@@ -90,7 +83,7 @@ unirest.get('https://omgvamp-hearthstone-v1.p.mashape.com/cards')
         const jsonData = JSON.stringify(result.body);
         const testData = '[' + jsonData + ']';
 
-        fs.writeFile('public/data.json', testData, function (err) {
+        fs.writeFile('public/data.json', testData, (err) => {
             if (err) {
                 return console.log(err);
             }
@@ -106,11 +99,12 @@ const forumPost = DB.getSchema(DB.postSchema, 'Post');
 // User Signin
 passport.use('local-signin', new LocalStrategy(
     {passReqToCallback : true},
-    function(req, username, password, done) {
+    (req, username, password, done) => {
         funct.localAuth(username, password)
-            .then(function (user) {
+            .then( (user) => {
                 if (user) {
                     console.log('LOGGED IN AS: ' + user.username);
+                    console.log(req.session);
                     req.session.success = 'You are successfully logged in ' + user.username;
                     done(null, user);
                 }
@@ -120,7 +114,7 @@ passport.use('local-signin', new LocalStrategy(
                     done(null, user);
                 }
             })
-            .fail(function (err){
+            .fail( (err) => {
                 console.log(err.body);
             });
     }
@@ -164,7 +158,9 @@ passport.deserializeUser((user, done) => {
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-         next();
+        console.log('User Authenticated');
+        console.log(req.user);
+        next();
     } else {
         req.session.error = 'Please sign in!';
         res.redirect('/');
@@ -186,12 +182,6 @@ http.createServer((req, res) => {
     res.writeHead(301, {'Location': 'https://localhost:3000' + req.url});
     res.end();
 }).listen(8080);
-
-/* app.get('/*', (req, res) => {
-    if (req.user == undefined) {
-        res.redirect('/index.html')
-    }
-}); */
 
 // ==== Forum Posts ====
 

@@ -3,6 +3,13 @@
  */
 'use strict';
 
+let postData = [];
+
+document.onload = () => {
+    getData();
+    populatePage(postData);
+};
+
 document.querySelector('#postForm').addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -25,8 +32,9 @@ document.querySelector('#postForm').addEventListener('submit', (evt) => {
         console.log(resp);
         getData();
     });
-});
 
+
+});
 
 const getData = () => {
     fetch('/posts')
@@ -34,6 +42,26 @@ const getData = () => {
             return response.json();
         })
         .then(response => {
-           console.log(JSON.stringify(response));
+           //console.log(JSON.stringify(response));
+           postData = response.post;
+
+           console.log('GET DATA');
+            console.log(postData);
+            populatePage(postData);
         });
+};
+
+
+const populatePage = (data) => {
+    console.log(data.length);
+    for (let i of data) {
+        console.log('Loop');
+        let html = `<div>
+                    <h3>` + i.title + `</h3>
+                    <br>
+                    <p>` + i.postText + `</p>
+                    </div>`;
+
+        document.getElementById('forumPosts').innerHTML += html;
+    }
 };
