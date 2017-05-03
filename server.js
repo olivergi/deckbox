@@ -46,33 +46,25 @@ app.use(function(req, res, next){
     next();
 });
 
-// Configure express to use handlebars templates
-const hbs = exphbs.create({
-    defaultLayout: 'main', //we will be creating this layout shortly
-});
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
-
 // ============= Routes =================
-
-//displays our homepage
-app.get('/forum', function(req, res){
+//displays the forum
+app.get('/forum', ensureAuthenticated, function(req, res){
     res.sendFile('forum.html', { root: 'public' });
 });
 
-//displays our signup page
+//displays the homepage
 app.get('/', function(req, res){
     res.sendFile('index.html');
 });
 
-//sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
+//sends the request through our local signup strategy, and if successful takes user to forum, otherwise returns then to home page
 app.post('/local-reg', passport.authenticate('local-signup', {
         successRedirect: '/forum',
         failureRedirect: '/'
     })
 );
 
-//sends the request through our local login/signin strategy, and if successful takes user to homepage, otherwise returns then to signin page
+//sends the request through our local login/signin strategy, and if successful takes user to forum, otherwise returns then to home page
 app.post('/login', passport.authenticate('local-signin', {
         successRedirect: '/forum',
         failureRedirect: '/'
@@ -110,30 +102,21 @@ DB.connect(process.env.mongoDB , app);
 
 const forumPost = DB.getSchema(DB.postSchema, 'Post');
 
-/* passport.use(new LocalStrategy(
-    (username, password, done) => {
-        if (username !== process.env.username || password !== process.env.password) {
-            return done(null, false, {message: 'Incorrect credentials.'});
-        }
-        return done(null, {username: username});
-    }
-)); */
-
-//===============PASSPORT=================
-// Use the LocalStrategy within Passport to login/"signin" users.
+// ===== PASSPORT =====
+// User Signin
 passport.use('local-signin', new LocalStrategy(
-    {passReqToCallback : true}, //allows us to pass back the request to the callback
+    {passReqToCallback : true},
     function(req, username, password, done) {
         funct.localAuth(username, password)
             .then(function (user) {
                 if (user) {
-                    console.log("LOGGED IN AS: " + user.username);
-                    req.session.success = 'You are successfully logged in ' + user.username + '!';
+                    console.log('LOGGED IN AS: ' + user.username);
+                    req.session.success = 'You are successfully logged in ' + user.username;
                     done(null, user);
                 }
                 if (!user) {
-                    console.log("COULD NOT LOG IN");
-                    req.session.error = 'Could not log user in. Please try again.'; //inform user could not log them in
+                    console.log('COULD NOT LOG IN');
+                    req.session.error = 'Could not log user in. Please try again.';
                     done(null, user);
                 }
             })
@@ -142,15 +125,16 @@ passport.use('local-signin', new LocalStrategy(
             });
     }
 ));
-// Use the LocalStrategy within Passport to register/"signup" users.
+
+// Registration
 passport.use('local-signup', new LocalStrategy(
-    {passReqToCallback : true}, //allows us to pass back the request to the callback
+    {passReqToCallback : true}, //enable pass back the request to the callback
     function(req, username, password, done) {
         funct.localReg(username, password)
             .then(function (user) {
                 if (user) {
                     console.log('REGISTERED: ' + user.username);
-                    req.session.success = 'You are successfully registered and logged in ' + user.username + '!';
+                    req.session.success = 'You are successfully registered and logged in ' + user.username;
                     done(null, user);
                 }
                 if (!user) {
@@ -165,7 +149,7 @@ passport.use('local-signup', new LocalStrategy(
     }
 ));
 
-//add the user in session
+// add the user in session
 passport.serializeUser((user, done) => {
     console.log(user);
     done(null, user);
@@ -178,13 +162,14 @@ passport.deserializeUser((user, done) => {
 
 // === Passport End ===
 
-
-
-const ensureAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) { return next(); }
-    req.session.error = 'Please sign in!';
-    res.redirect('/signin');
-};
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+         next();
+    } else {
+        req.session.error = 'Please sign in!';
+        res.redirect('/');
+    }
+}
 
 // === HTTPS Redirect ===
 
@@ -202,17 +187,13 @@ http.createServer((req, res) => {
     res.end();
 }).listen(8080);
 
-
-
 /* app.get('/*', (req, res) => {
     if (req.user == undefined) {
         res.redirect('/index.html')
     }
 }); */
 
-/* app.post('/login',
-    passport.authenticate('local', {successRedirect: '/forum.html', failureRedirect: '/'})
-); */
+// ==== Forum Posts ====
 
 // get posts
 app.get('/posts', (req, res) => {
