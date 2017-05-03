@@ -5,11 +5,6 @@
 
 let postData = [];
 
-document.onload = () => {
-    getData();
-    populatePage(postData);
-};
-
 document.querySelector('#postForm').addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -49,6 +44,7 @@ const getData = () => {
             console.log(postData);
             populatePage(postData);
         });
+
 };
 
 
@@ -65,3 +61,5 @@ const populatePage = (data) => {
         document.getElementById('forumPosts').innerHTML += html;
     }
 };
+
+getData();
