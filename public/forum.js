@@ -92,7 +92,6 @@ const createCard = (post, integerID) => {
                     </div>
                     <br>
                     <p>` + post.postText + `</p>
-                    <p hidden id="hiddenID">` + post._id + `</p>
                     <button type="button" class="btn btn-info" data-toggle="collapse" href="#editSection` + integerID +`"> Edit</button>
                     <div class="collapse" id="editSection`+ integerID +`">
                     <form>
@@ -103,7 +102,7 @@ const createCard = (post, integerID) => {
                         </div>
                         <div class="form-group">
                             <br>
-                            <textarea id="editText`+ integerID + `" rows="4" cols="50" required>`+ post.postText +`</textarea>
+                            <textarea id="editText`+ integerID + `" class="form-control" rows="4" required>`+ post.postText +`</textarea>
                         </div>
                         <Button type="button" class="btn btn-success" onclick="savePost('` + post._id + `',` + integerID + `)" value="Save">Save</Button>
                         <Button type="button" class="btn btn-danger" data-toggle="collapse" href="#deleteConfirmation` + integerID +`">Delete</Button>

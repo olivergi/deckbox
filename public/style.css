@@ -58,3 +58,7 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+
+#postForm {
+    margin-top: 15px;
+}
