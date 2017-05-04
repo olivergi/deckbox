@@ -3,6 +3,4 @@
 .env
 config.js
 /node_modules
-ssl-key.pem
-ssl-cert.pem
 certrequest.csr
