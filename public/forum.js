@@ -93,7 +93,7 @@ const createCard = (post, integerID) => {
                     <br>
                     <p>` + post.postText + `</p>
                     <p hidden id="hiddenID">` + post._id + `</p>
-                    <button data-toggle="collapse" href="#editSection` + integerID +`"> Edit</button>
+                    <button type="button" class="btn btn-info" data-toggle="collapse" href="#editSection` + integerID +`"> Edit</button>
                     <div class="collapse" id="editSection`+ integerID +`">
                     <form>
                         <div class="form-group">
@@ -105,8 +105,15 @@ const createCard = (post, integerID) => {
                             <br>
                             <textarea id="editText`+ integerID + `" rows="4" cols="50" required>`+ post.postText +`</textarea>
                         </div>
-                        <Button onclick="savePost('` + post._id + `',` + integerID + `)" value="Save">Save</Button>
-                        <Button onclick="deletePost('`+ post._id +`')">Delete</Button>
+                        <Button type="button" class="btn btn-success" onclick="savePost('` + post._id + `',` + integerID + `)" value="Save">Save</Button>
+                        <Button type="button" class="btn btn-danger" data-toggle="collapse" href="#deleteConfirmation` + integerID +`">Delete</Button>
+                        <div class="collapse" id="deleteConfirmation` + integerID +`">
+                        Are you Sure?
+                        <br>
+                        
+                        <Button type="button" class="btn btn-success" onclick="deletePost('`+ post._id +`')">Yes</Button>
+                        <Button type="button" class="btn btn-danger" data-toggle="collapse" href="#deleteConfirmation` + integerID +`">No</Button>
+                        </div>
                     </form>
                     </div>
                     </div>`;

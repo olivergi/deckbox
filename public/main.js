@@ -61,17 +61,3 @@ document.getElementById('submitSearch').addEventListener('click', () => {
     searchFunction(document.getElementById('search').value);
 });
 
-// WIP Function for Checking Characters
-/* postText.addEventListener('input', () => {
-    // Get last typed character
-    const lastChar = postText.value.substr(postText.value.length - 1);
-
-    if (lastChar == '[') {
-        // Implement Search functionality Here
-    }
-
-    if (lastChar == ']') {
-        // End Search functionality
-        console.log('Search Ended');
-    }
-}); */

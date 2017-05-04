@@ -75,7 +75,7 @@ app.get('/logout', (req, res) => {
 
 // ========== ROUTE END =============
 
-// Optional Parameters: ?attack=1&cost=1&health=1
+// Hearthstone Card API -- For Searching
 unirest.get('https://omgvamp-hearthstone-v1.p.mashape.com/cards')
     .header('X-Mashape-Key', process.env.mashape)
     .end((result) => {
@@ -156,6 +156,8 @@ passport.deserializeUser((user, done) => {
 
 // === Passport End ===
 
+
+// === User Authentication ===
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         console.log('User Authenticated');
