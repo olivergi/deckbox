@@ -39,3 +39,21 @@ body {
 .forum.table th.cell-stat-2x {
     width: 14em;
 }
+
+.forumPostBox {
+    border: solid black 2px;
+    margin-top: 7px;
+    margin-bottom: 10px;
+    padding: 7px;
+}
+
+.forumPostTitleBox {
+    border-bottom: dashed black 2px;
+}
+
+#postContainer {
+    margin: 7px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -192,15 +192,32 @@ app.get('/posts', (req, res) => {
     });
 });
 
+app.post('/editPost', (req, res) => {
+    forumPost.findOneAndUpdate({_id : req.body.postId}, req.body.newPost, {new: true}, (err, update) => {
+        if(!err) {
+            res.send({status: true, update: update});
+        } else {
+            res.send({status: false, error: err});
+        }
+    });
+});
+
+app.delete('/deletePost', (req, res) => {
+   forumPost.findOneAndRemove({_id: req.body.postId}, (err) =>{
+       if(!err){
+           res.send({status: true});
+       } else {
+           res.send({status: false, error: err});
+       }
+   })
+});
+
 // post
 app.post('/post', (req, res, next) => {
-    console.log(JSON.stringify(req.body));
     req.body.time = new Date().getTime();
-    console.log('Req Body Title:' + req.body.title);
     try {
         next();
     } catch (error) {
-        console.log('Error: ' + error.message);
         res.send({status: 'error', message: 'EXIF error'});
     }
 });
@@ -209,8 +226,8 @@ app.post('/post', (req, res, next) => {
 app.use('/post', (req, res, next) => {
     forumPost.create(req.body).then(post => {
         res.send({status: 'OK', post: post});
-    }).then(() => {
-        res.send({status: 'error', message: 'Database error'});
-    });
+    }).catch((err) => {
+        console.log('Error' + err);
+    })
 });
 
