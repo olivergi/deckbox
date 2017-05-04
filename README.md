@@ -8,7 +8,7 @@ I chose this as my target for the project as it provided me with a suitable chal
 I was required to utilize a database being able to Create, Read, Update and Remove from it. For this I have used MongoDB as it is well supported in Node.js.
 
 
-Project dependencies in package.json.
+Project dependencies are in the package.json.
 The build is missing the .env and config.js files which the user is required to create themselves.
 Examples of how the files are required to be structured are below.
 
@@ -29,7 +29,12 @@ I have hosted the application on a Jelastic cloud server, which is provided to m
 
 [Deckbox Jelastic](http://oliver-sssf.jelastic.metropolia.fi/)
 
-To deploy the application locally it is required to use the following npm command:
+To deploy the application locally it is required to use the following npm commands:
+
+
+```
+    npm install
+```
 
 ```
     node server.js
