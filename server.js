@@ -52,14 +52,14 @@ app.get('/', (req, res) => {
 
 //sends the request through the local signup strategy, and if successful takes user to forum, otherwise returns then to home page
 app.post('/local-reg', passport.authenticate('local-signup', {
-        successRedirect: '/forum',
+        successRedirect: '/postPage',
         failureRedirect: '/'
     })
 );
 
 //sends the request through the local login/signin strategy, and if successful takes user to forum, otherwise returns then to home page
 app.post('/login', passport.authenticate('local-signin', {
-        successRedirect: '/forum',
+        successRedirect: '/postPage',
         failureRedirect: '/'
     })
 );
