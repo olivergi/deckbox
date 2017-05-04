@@ -3,6 +3,8 @@ Card game database University Node.js project.
 The requirement of project was to build an application utilizing Node.js.
 For my project I have create an application which acts as a database and discussion forum for the digital card game, Hearthstone.
 I chose this as my target for the project as it provided me with a suitable challenge that matched the requirements of the project.
+
+
 I was required to utilize a database being able to Create, Read, Update and Remove from it. For this I have used MongoDB as it is well supported in Node.js.
 
 
