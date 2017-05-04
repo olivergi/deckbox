@@ -29,7 +29,10 @@ I have hosted the application on a Jelastic cloud server, which is provided to m
 
 [Deckbox Jelastic](http://oliver-sssf.jelastic.metropolia.fi/)
 
-To deploy the application locally it is required to use the following npm commands:
+## Deployment
+
+After pulling the project, you will be required to install the dependencies of the application.
+To install and deploy the application locally it is required to use the following npm commands:
 
 
 ```
