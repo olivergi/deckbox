@@ -171,7 +171,7 @@ function ensureAuthenticated(req, res, next) {
 
 // === HTTPS Redirect ===
 
-const sslkey = fs.readFileSync('ssl-key.pem');
+/* const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
 
 const options = {
@@ -184,6 +184,7 @@ http.createServer((req, res) => {
     res.writeHead(301, {'Location': 'https://localhost:3000' + req.url});
     res.end();
 }).listen(8080);
+ */
 
 // ==== Forum Posts ====
 
