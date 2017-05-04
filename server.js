@@ -169,7 +169,7 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
-// === HTTPS Redirect ===
+// === HTTPS Redirect === Removed for Jelastic Deployment
 
 /* const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem');
